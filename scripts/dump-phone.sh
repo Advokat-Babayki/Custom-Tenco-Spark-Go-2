@@ -23,6 +23,8 @@ while [ $# -gt 0 ]; do
     esac
 done
 
+TOOLS="$(cd "${TOOLS}" && pwd)"
+
 SPD="$TOOLS/spd_dump"
 FDL1="$TOOLS/fdl_kl4/fdl1-dl.bin"
 FDL2="$TOOLS/fdl_kl4/fdl2-dl.bin"
@@ -34,6 +36,7 @@ done
 [ "$(id -u)" -eq 0 ] || echo "внимание: BROM обычно требует root на USB; если не увидит телефон — запустите через sudo"
 
 OUT="${OUT:-$PWD/dump_$(date +%Y%m%d_%H%M%S)}"
+OUT="$(realpath -m "$OUT")"
 mkdir -p "$OUT"
 LOG="$OUT/dump.log"
 
@@ -45,8 +48,9 @@ echo " Старт через 30 секунд, Ctrl+C для отмены"
 echo "==============================================="
 for i in $(seq 30 -1 1); do printf '\r  %2d ' "$i"; sleep 1; done; echo
 
-# Единственная команда к устройству: exec FDL -> read_part. Ни записи, ни стирания.
-"$SPD" --wait 600 --verbose 2 \
+# spd_dump ищет custom_exec_no_verify_<addr>.bin в текущем каталоге,
+# поэтому запускаем его из каталога tools.
+( cd "$TOOLS" && "$SPD" --wait 600 --verbose 2 \
     exec_addr 0x65015f08 \
     fdl "$FDL1" 0x65000800 \
     fdl "$FDL2" 0x9efffe00 \
@@ -55,7 +59,7 @@ for i in $(seq 30 -1 1); do printf '\r  %2d ' "$i"; sleep 1; done; echo
     path "$OUT" \
     read_part super 0 "$SUPER_BYTES" super.bin \
     read_part metadata 0 67108864 metadata.bin \
-    reset >"$LOG" 2>&1
+    reset ) >"$LOG" 2>&1
 rc=$?
 
 echo "spd_dump rc=$rc"
