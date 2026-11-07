@@ -6,14 +6,13 @@
 
 | Файл | Размер | Что |
 |---|---|---|
-| `system.img` | ~3.1 ГиБ | LineageOS 22.1 GSI (ext4, GApps) |
+| `super.img` | 9.52 ГиБ | весь `super`: LineageOS GSI + стоковые vendor/system_ext/product |
 | `init_boot_patched.img` | 8 МиБ | Magisk v31.1 |
-| `bootanimation.zip` | ~276 МиБ | заставка |
-| `modules.tar.gz` | ~10 МиБ | все модули, готовые к установке |
+| `modules.tar.gz` | ~0.5 МиБ | все модули, готовые к установке |
 | `SHA256SUMS` | — | контрольные суммы |
 
-GitHub ограничивает файл релиза 2 ГиБ, поэтому `system.img` (и общий
-архив) режется на тома `7z -v1900m`. Распаковка:
+GitHub ограничивает файл релиза 2 ГиБ, поэтому архив режется на тома
+`7z -v1900m`. Распаковка:
 
 ```bash
 7z x CustomTecnoSparkGo2-vX.Y.7z.001
@@ -22,26 +21,32 @@ sha256sum -c SHA256SUMS
 
 ## Сборка релиза
 
-1. Стоковая база и GSI — в `TECNO_KM4_RECON/` (в репозиторий не входят).
-2. Собрать APK режима кармана:
+1. Снять дамп с рабочего телефона: `sudo bash scripts/dump-phone.sh`
+   (телефон выключен, Vol+ и Vol−, кабель).
+2. Проверить дамп: `lpdump dump_*/super.bin`, размер 9 521 070 080 байт.
+3. Собрать APK режима кармана:
    ```bash
    (cd modules/km4_pocketmode && bash build.sh)
    ```
-3. Подготовить IMS:
+4. Подготовить IMS:
    ```bash
    bash modules/km4-stock-ims/prepare.sh
    ```
-4. Собрать архив модулей:
+5. Собрать архив модулей:
    ```bash
    bash scripts/pack-modules.sh
    ```
-5. Упаковать и посчитать суммы:
+6. Упаковать и посчитать суммы:
    ```bash
-   sha256sum system.img init_boot_patched.img bootanimation.zip modules.tar.gz > SHA256SUMS
-   7z a -v1900m CustomTecnoSparkGo2-vX.Y.7z system.img init_boot_patched.img \
-        bootanimation.zip modules.tar.gz SHA256SUMS
+   cp dump_*/super.bin release/super.img
+   sha256sum super.img init_boot_patched.img modules.tar.gz > SHA256SUMS
+   7z a -v1900m CustomTecnoSparkGo2-vX.Y.7z super.img init_boot_patched.img \
+        modules.tar.gz SHA256SUMS
    ```
-6. `gh release create vX.Y <тома> SHA256SUMS --notes-file CHANGELOG.md`
+7. `gh release create vX.Y <тома> SHA256SUMS --notes-file CHANGELOG.md`
+
+Заставка (`bootanimation.zip`, 276 МБ) лежит отдельно в релизе v1.0 —
+в `super` она не входит, её ставит модуль `bootanim_netrunner`.
 
 ## Версионирование
 

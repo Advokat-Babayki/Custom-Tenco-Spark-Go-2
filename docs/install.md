@@ -22,6 +22,10 @@ bash scripts/check-device.sh
 
 ## Путь A — готовый образ из релиза
 
+Образ `super.img` — это полный рабочий `super` с уже установленной LineageOS:
+стоковые `vendor`, `system_ext`, `product` плюс GSI в `system_a`. Один flash,
+без удаления logical-разделов.
+
 1. Скачать архив и `SHA256SUMS` из Releases.
 2. Сверить: `sha256sum -c SHA256SUMS`.
 3. Распаковать: `7z x <архив>.7z.001`.
@@ -30,12 +34,11 @@ bash scripts/check-device.sh
    adb reboot bootloader
    fastboot flash init_boot init_boot_patched.img
    ```
-5. Войти в fastbootd и прошить систему:
+5. Войти в fastbootd и прошить `super` целиком:
    ```bash
    fastboot reboot fastboot
    fastboot getvar is-userspace      # должно быть: yes
-   fastboot getvar current-slot      # a
-   fastboot flash system system.img
+   fastboot flash super super.img    # ~9.52 ГиБ, 5–15 минут
    fastboot -w
    fastboot erase metadata
    fastboot reboot
@@ -43,6 +46,9 @@ bash scripts/check-device.sh
 6. Первый запуск 5–15 минут. Если bootloop — см. [recovery.md](recovery.md),
    план Б с `vbmeta`.
 7. Установить модули: `bash scripts/install-modules.sh`.
+
+> `super.img` собран с конкретного KM4 на сборке `180010` и проверен на нём.
+> На другой ревизии платы или другой базе — не прошивать.
 
 ## Путь B — с нуля (то, как это делалось)
 

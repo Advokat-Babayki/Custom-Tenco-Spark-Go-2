@@ -16,3 +16,9 @@ keystore.jks
 # тома архивов
 *.7z.*
 *.tar.gz.*
+
+# дампы устройств (большие, не в git)
+dump_*/
+unpack/
+*.zst
+*.part*
