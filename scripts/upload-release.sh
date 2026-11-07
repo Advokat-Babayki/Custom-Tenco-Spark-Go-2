@@ -14,8 +14,19 @@ if ! gh release view "$R" >/dev/null 2>&1; then
         echo "не удалось создать черновик" >&2; exit 1; }
 fi
 
+# уже залитые части пропускаем: имя + размер
+declare -A HAVE=()
+while IFS=$'\t' read -r n s; do HAVE["$n"]="$s"; done < <(
+    gh release view "$R" --json assets --jq '.assets[] | "\(.name)\t\(.size)"' 2>/dev/null
+)
+
 upload() {
-    local f="$1" n=0
+    local f="$1" sz n=0
+    sz=$(stat -c%s "$f")
+    if [ "${HAVE[$f]:-}" = "$sz" ]; then
+        echo "[$(date +%H:%M:%S)] $f уже залит, пропуск"
+        return 0
+    fi
     while [ "$n" -lt 8 ]; do
         n=$((n+1))
         echo "[$(date +%H:%M:%S)] $f попытка $n"
