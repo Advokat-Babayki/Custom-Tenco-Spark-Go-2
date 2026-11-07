@@ -26,9 +26,15 @@ bash scripts/check-device.sh
 стоковые `vendor`, `system_ext`, `product` плюс GSI в `system_a`. Один flash,
 без удаления logical-разделов.
 
-1. Скачать архив и `SHA256SUMS` из Releases.
-2. Сверить: `sha256sum -c SHA256SUMS`.
-3. Распаковать: `7z x <архив>.7z.001`.
+1. Скачать все части `CustomTecnoSparkGo2-v1.1.tar.zst.part*` и `SHA256SUMS.parts`.
+2. Сверить части:
+   ```bash
+   sha256sum -c SHA256SUMS.parts
+   ```
+3. Распаковать:
+   ```bash
+   cat CustomTecnoSparkGo2-v1.1.tar.zst.part* | zstd -d | tar -x
+   ```
 4. Прошить init_boot в загрузчике:
    ```bash
    adb reboot bootloader

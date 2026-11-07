@@ -11,12 +11,18 @@
 | `modules.tar.gz` | ~0.5 МиБ | все модули, готовые к установке |
 | `SHA256SUMS` | — | контрольные суммы |
 
-GitHub ограничивает файл релиза 2 ГиБ, поэтому архив режется на тома
-`7z -v1900m`. Распаковка:
+GitHub ограничивает файл релиза 2 ГиБ, а соединение рвётся, поэтому архив
+режется на куски по 500 МиБ. Скачивание и сборка:
 
 ```bash
-7z x CustomTecnoSparkGo2-vX.Y.7z.001
-sha256sum -c SHA256SUMS
+sha256sum -c SHA256SUMS.parts
+cat CustomTecnoSparkGo2-v1.1.tar.zst.part* | zstd -d | tar -x
+```
+
+Заливка с повторами (обрыв куска не рушит остальное):
+
+```bash
+bash scripts/upload-release.sh v1.1
 ```
 
 ## Сборка релиза
@@ -40,10 +46,11 @@ sha256sum -c SHA256SUMS
    ```bash
    cp dump_*/super.bin release/super.img
    sha256sum super.img init_boot_patched.img modules.tar.gz > SHA256SUMS
-   7z a -v1900m CustomTecnoSparkGo2-vX.Y.7z super.img init_boot_patched.img \
-        modules.tar.gz SHA256SUMS
+   tar -cf - super.img init_boot_patched.img modules.tar.gz | zstd -T2 -3 -o CustomTecnoSparkGo2-vX.Y.tar.zst
+   split -b 500M -d -a 2 CustomTecnoSparkGo2-vX.Y.tar.zst CustomTecnoSparkGo2-vX.Y.tar.zst.part
+   sha256sum CustomTecnoSparkGo2-vX.Y.tar.zst.part* > SHA256SUMS.parts
    ```
-7. `gh release create vX.Y <тома> SHA256SUMS --notes-file CHANGELOG.md`
+7. `gh release create vX.Y --notes-file CHANGELOG.md` + `bash scripts/upload-release.sh vX.Y`
 
 Заставка (`bootanimation.zip`, 276 МБ) лежит отдельно в релизе v1.0 —
 в `super` она не входит, её ставит модуль `bootanim_netrunner`.
