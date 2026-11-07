@@ -25,16 +25,17 @@ bash scripts/check-device.sh
 1. Скачать архив и `SHA256SUMS` из Releases.
 2. Сверить: `sha256sum -c SHA256SUMS`.
 3. Распаковать: `7z x <архив>.7z.001`.
-4. Войти в fastbootd:
+4. Прошить init_boot в загрузчике:
    ```bash
-   adb reboot fastboot
+   adb reboot bootloader
+   fastboot flash init_boot init_boot_patched.img
+   ```
+5. Войти в fastbootd и прошить систему:
+   ```bash
+   fastboot reboot fastboot
    fastboot getvar is-userspace      # должно быть: yes
    fastboot getvar current-slot      # a
-   ```
-5. Прошить (файлы из распакованной папки):
-   ```bash
    fastboot flash system system.img
-   fastboot flash init_boot init_boot_patched.img
    fastboot -w
    fastboot erase metadata
    fastboot reboot
