@@ -1,0 +1,6 @@
+id=km4-stock-ims
+name=KM4 Stock IMS
+version=0.1
+versionCode=1
+author=OpenCode adaptation
+description=Stock TECNO KM4 IMS stack in a systemless module; SELinux stays enforcing, no network-mode changes, no automatic reboot.

@@ -1,0 +1,6 @@
+id=km4-usb-playback
+name=KM4 USB playback enable
+version=1.0
+versionCode=1
+author=Codex
+description=Enable USB playback in the TECNO KM4 vendor audio HAL

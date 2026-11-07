@@ -1,0 +1,14 @@
+# Targeted Unisoc IMS access; SELinux remains enforcing.
+allow system_server priv_app binder { call transfer }
+allow system_server priv_app fd { use }
+allow system_server priv_app process { getattr }
+allow priv_app radio binder { call transfer }
+allow priv_app radio fd { use }
+allow priv_app radio process { getattr }
+allow priv_app ext_radio_service service_manager { find }
+allow priv_app default_android_service service_manager { find }
+allow priv_app rild binder { call transfer }
+allow priv_app radio_prop property_service { set }
+allow priv_app property_socket sock_file { write }
+allow rild priv_app binder { call transfer }
+allow rild priv_app fd use

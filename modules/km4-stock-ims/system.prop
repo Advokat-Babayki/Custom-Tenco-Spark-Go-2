@@ -1,0 +1,3 @@
+persist.vendor.sys.volte.enable=true
+persist.vendor.sys.single.imsstack=true
+persist.ims.apn=ims

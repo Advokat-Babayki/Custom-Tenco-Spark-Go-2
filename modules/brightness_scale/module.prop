@@ -1,0 +1,6 @@
+id=brightness_scale
+name=Brightness Scale (KM4)
+version=v1
+versionCode=1
+author=local
+description=Scales Android 0-255 brightness to panel 0-5119 range.

@@ -1,0 +1,1 @@
+allow magisk sysfs_transsion_backlight_midtest file { write open read getattr }

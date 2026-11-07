@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Режим кармана</string>
+    <string name="warning_title">Экран заблокирован</string>
+    <string name="warning_subtitle">Датчик приближения закрыт</string>
+    <string name="warning_body">Касания заблокированы. Уберите телефон из кармана — блокировка снимется сама.</string>
+    <string name="warning_escape">Если сенсор залип, удерживайте Громкость + и Громкость − около секунды.</string>
+    <string name="warning_escape_note">После этого режим приостановится на 5 минут.</string>
+    <string name="paused">Режим кармана приостановлен на 5 минут</string>
+</resources>

@@ -1,0 +1,14 @@
+# сборки
+build/
+*.apk
+*.idsig
+keystore.jks
+
+# образы и архивы — только в релизах
+*.img
+*.zip
+*.7z
+*.tar.gz
+
+# системный мусор
+.DS_Store
