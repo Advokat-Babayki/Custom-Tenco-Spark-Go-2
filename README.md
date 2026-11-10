@@ -26,7 +26,9 @@ LineageOS 22.1 GSI (Android 15), root через Magisk и набор модул
 | `km4-usb-playback` | воспроизведение звука на USB-ЦАП/наушники |
 | `com.chiller3.bcr` | запись всех звонков (внешний модуль) |
 | `km4_pocketmode` | режим кармана: блокировка касаний датчиком приближения |
+| `lowram_multiwindow` | разделение экрана и плавающие окна |
 | `bootanim_netrunner` | кастомная заставка Cyberpunk |
+| `zygisk-assistant` + `playintegrityfix` | скрытие root от банков и Госуслуг |
 
 ## Быстрый старт
 
@@ -57,6 +59,7 @@ bash scripts/check-device.sh
 | [docs/root.md](docs/root.md) | разблокировка, Magisk, модули |
 | [docs/recovery.md](docs/recovery.md) | бэкапы и откат к стоку |
 | [docs/modules.md](docs/modules.md) | все модули и как их ставить |
+| [docs/known-issues.md](docs/known-issues.md) | что сломано и почему |
 | [docs/boot-animation.md](docs/boot-animation.md) | кастомная заставка |
 | [docs/fixes/](docs/fixes) | почему каждый фикс нужен и как он работает |
 

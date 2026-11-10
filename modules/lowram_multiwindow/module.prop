@@ -1,0 +1,6 @@
+id=lowram_multiwindow
+name=Low-RAM Multi-Window Enabler
+version=1.0
+versionCode=1
+author=local
+description=Clears ro.config.low_ram at boot so Android Go exposes split-screen and freeform windows.

@@ -1,5 +1,30 @@
 # Changelog
 
+## v1.2 — не выпущено
+
+Собрано по сессиям 2026-11-08…11-10. Релиз не делался: устройство
+нестабильно, образ не снимался.
+
+### Добавлено
+
+- **Скрытие root** для Госуслуг и банков: Zygisk Assistant 2.1.4,
+  PlayIntegrityFork v19, DenyList-цели, `pm hide com.topjohnwu.magisk`,
+  ярлык Termux для запуска скрытого Magisk.
+- **`lowram_multiwindow`**: снятие Android Go-ограничения
+  (`ro.config.low_ram=false`) плюс `enable_freeform_support=1` —
+  разделение экрана и плавающие окна.
+- **`docs/known-issues.md`**: разбор ANR Firefox (magic mount, 4803
+  записи в `mountinfo`), вылет Telegram из-за таймаута GMS, падения
+  SystemUI при freeform, план по слабому железу.
+- **`docs/fixes/play-store.md`**: обёртка `com.android.vending:background`
+  (10-секундный таймаут старта) и почему её нельзя считать «хвостом».
+
+### Не выпущено
+
+- Готовый образ: `super` с этими изменениями не снимался.
+- Google Prompt: диагностика без изменений, тема закрыта.
+- AV1/YouTube: план есть, правок не было.
+
 ## v1.1 — 2026-11-08
 
 Полный образ системы: `super.img`, снятый с рабочего телефона и проверенный
